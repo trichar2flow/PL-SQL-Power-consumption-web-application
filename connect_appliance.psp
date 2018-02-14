@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@page language="PL/SQL"%>
+<%@plsql procedure="connect_appliance"%>
+<%@plsql parameter="hidden_name" default="null"%>
+<%@plsql parameter="hidden_account_type" default="null"%>
+
+<%! cursor plug_cursor is select distinct plug_ID from smart_plug; %>
+<%! plug_row plug_cursor%rowtype;%>
+<%! cursor appliance_cursor is select distinct a_type from parameters; %>
+<%! appliance_row appliance_cursor%rowtype;%>
+
+
+<html>
+
+<head>
+<title>Connect Appliance</title>
+</head>
+<style>
+        body {background-color: #00a375;}
+        h1 {color: white;
+            font-size: 50px;
+            font-family: "Verdana";}
+        h2 {color: white;
+            font-size: 25px;
+            font-family: "Verdana";}
+        h3 {color: white;
+            font-size: 15px;
+            font-family: "Verdana";}
+        a {color: white;
+           font-family: "Verdana";
+           font-size: 15px;}
+        input[type=submit] {font-size: 15px;
+                            font-family: "Verdana";
+                            color: white;
+                            background-color: transparent;
+                            border: solid white 1px;
+                            padding-left: 20px;
+                            padding-right: 20px;}
+        input[type=reset] {font-size: 15px;
+                           font-family: "Verdana";
+                           color: white;
+                           background-color: transparent;
+                           border: solid white 1px;
+                           padding-left: 20px;
+                           padding-right: 20px;}
+        input[type=text] {font-family: "Verdana";}
+        input[type=select] {font-family: "Verdana";}
+        table {color: white;
+               font-size: 15px;
+               font-family: "Verdana";
+               border: solid white 1px;}
+    </style>
+<body>
+<div align="left"><img align="left" src="https://d30y9cdsu7xlg0.cloudfront.net/png/2328-200.png" style="max-width: 60px"></img><h1>Connect Appliance</h1></div>
+
+<h2>Connect an appliance to a smart plug. You MUST enter a wattage!</h2>
+
+
+<form action="http://oracle.is.umbc.edu:8080/classpsp/IS420_LB35577.connect_appliance_response" name= "form_name_here"   method="post">
+            <input type ="hidden" name="hidden_name" value ="<%=hidden_name%>">
+            <input type ="hidden" name="hidden_account_type" value ="<%=hidden_account_type%>">
+        
+
+<h3>Smart Plug:</h3> <select name="plug_id_text">
+<%for plug_row in plug_cursor loop%>
+<option value="<%=plug_row.plug_id%>"><%=plug_row.plug_id%></option>
+<%end loop;%>
+</select><br />
+
+<h3>Appliance type:</h3><select name="a_type_text">
+<%for appliance_row in appliance_cursor loop%>
+<option value="<%=appliance_row.a_type%>"><%=appliance_row.a_type%></option>
+<%end loop;%>
+</select> <br />
+
+<h3>Appliance description:</h3><input type="text" name="in_description" value="" /> <br />
+
+<h3>Appliance Wattage:</h3><input type="text" name="in_a_watt" value="" /> <br /><br />
+
+<input type="submit" name="FormsButton1" value="Connect Appliance"/>
+<input type=reset name="Clear entries" value="Reset"/>
+</form>
+
+<a href="#" onclick="document.forms['connect_appliance_Back_to_HomePage'].submit();"> Back to HomePage</a>
+    <form action="http://oracle.is.umbc.edu:8080/classpsp/IS420_LB35577.wattsup_homepage" name= "connect_appliance_Back_to_HomePage"   method="post">
+        <input type ="hidden" name="hidden_name" value ="<%=hidden_name%>">
+        <input type ="hidden" name="hidden_account_type" value ="<%=hidden_account_type%>">
+    </form>
+
+<% exception when others then %>
+<%=sqlerrm%>
+
+
+
+
+<!-- End Page Content -->
+</body>
+</html>

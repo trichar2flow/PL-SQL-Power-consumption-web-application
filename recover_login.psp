@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@page language="PL/SQL"%>
+<%@plsql procedure="recover_login"%>
+
+
+<html>
+
+<head>
+<title>Login Recovery</title>
+</head>
+<style>
+        body {background-color: #00a375;}
+        h1 {color: white;
+            font-size: 50px;
+            font-family: "Verdana";}
+        h2 {color: white;
+            font-size: 25px;
+            font-family: "Verdana";}
+        h3 {color: white;
+            font-size: 20px;
+            font-family: "Verdana";}
+        a {color: white;
+           font-family: "Verdana";
+           font-size: 20px;}
+        input[type=text] {font-family: "Verdana";}
+        input[type=select] {font-family: "Verdana";}
+        input[type=submit] {font-size: 15px;
+                            font-family: "Verdana";
+                            color: white;
+                            background-color: transparent;
+                            border: solid white 1px;
+                            padding-left: 20px;
+                            padding-right: 20px;}
+        table {color: white;
+               font-size: 15px;
+               font-family: "Verdana";
+               border: solid white 1px;}
+    </style>
+<body>
+<div align="left"><img align="left" src="https://d30y9cdsu7xlg0.cloudfront.net/png/2328-200.png" style="max-width: 60px"></img><h1>Login Recovery</h1></div>
+
+<br> <!-- Start Page Content -->
+
+<h2>Recover your login information. Only one entry needs to be completed!</h2></p>
+
+<form action="http://oracle.is.umbc.edu:8080/classpsp/IS420_LB35577.recover_password" method="post">
+
+<h3>Username:</h3><input type="text" name="in_username"  /><br />
+<h3>Password:</h3><input type="password" name="in_password"  /> <br /><br />
+
+<input type="submit" name="formsButton2" value="Next"/>
+
+</form>
+
+<a href="http://oracle.is.umbc.edu:8080/classpsp/IS420_LB35577.my_log_in">Back to Log In</a>
+
+</body>
+</html>

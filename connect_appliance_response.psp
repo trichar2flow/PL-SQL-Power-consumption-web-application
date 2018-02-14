@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@page language="PL/SQL"%>
+<%@plsql procedure="connect_appliance_response"%>
+<%@plsql parameter="plug_id_text" default="null"%>
+<%@plsql parameter="a_type_text" default="null"%>
+<%@plsql parameter="in_description" default="null"%>
+<%@plsql parameter="in_a_watt" default="null"%>
+<%@plsql parameter="formsButton1" default="null"%>
+<%@plsql parameter="hidden_name" default="null"%>
+<%@plsql parameter="hidden_account_type" default="null"%>
+<%! var_watt appliance.a_watt%type; %>
+<%! msg varchar2(50); %>
+
+<html>
+
+<head>
+<title>Connect Appliance</title>
+</head>
+<style>
+        body {background-color: #00a375;}
+        h1 {color: white;
+            font-size: 50px;
+            font-family: "Verdana";}
+        h2 {color: white;
+            font-size: 25px;
+            font-family: "Verdana";}
+        h3 {color: white;
+            font-size: 20px;
+            font-family: "Verdana";}
+        a {color: white;
+           font-family: "Verdana";
+           font-size: 15px;}
+        input[type=text] {font-family: "Verdana";}
+        input[type=select] {font-family: "Verdana";}
+        input[type=submit] {font-size: 15px;
+                            font-family: "Verdana";
+                            color: white;
+                            background-color: transparent;
+                            border: solid white 1px;
+                            padding-left: 20px;
+                            padding-right: 20px;}
+        table {color: white;
+               font-size: 15px;
+               font-family: "Verdana";
+               border: solid white 1px;}
+    </style>
+<!--Content-->
+<body>
+
+<% if in_a_watt IS NULL or in_a_watt<0  then%>
+<h2>Please try again and enter a valid wattage number</h2>
+
+        <form action="http://oracle.is.umbc.edu:8080/classpsp/IS420_LB35577.connect_appliance" name= "form_name_here"   method="post">
+            <input type ="hidden" name="hidden_name" value ="<%=hidden_name%>" >
+            <input type ="hidden" name="hidden_account_type" value ="<%=hidden_account_type%>">
+            <input type="submit" value="Try Again" />
+        </form>
+    
+</form>
+<%end if;%>
+
+
+<% if in_a_watt IS NOT NULL and in_a_watt>0 then %>
+
+<h3><%msg:='You entered an invalid wattage number';%></h3>
+<% insert into appliance(app_id,description,a_type,a_watt,plug_id) values (app_id_sequence.nextval,in_description,a_type_text,in_a_watt,plug_id_text); %>
+
+<h2>Appliance ID:<%=app_id_sequence.currval%>  description:<%=in_description%> Wattage:<%=in_a_watt%> Plug:<%=plug_id_text%>.</h2>
+<h3>Your appliance was successfully connected.</h3>
+<%commit;%>
+
+
+        <form action="http://oracle.is.umbc.edu:8080/classpsp/IS420_LB35577.connect_appliance" name= "form_name_here"   method="post">
+            <input type ="hidden" name="hidden_name" value ="<%=hidden_name%>" >
+            <input type ="hidden" name="hidden_account_type" value ="<%=hidden_account_type%>">
+            <input type="submit" value="Connect Another Appliance" />
+        </form>
+
+
+
+        <form action="http://oracle.is.umbc.edu:8080/classpsp/IS420_LB35577.connect_appliance" name= "form_name_here"   method="post">
+            <input type ="hidden" name="hidden_name" value ="<%=hidden_name%>" >
+            <input type ="hidden" name="hidden_account_type" value ="<%=hidden_account_type%>">
+            <input type="submit" value="Home" />
+        </form>
+
+<%end if;%>
+
+<% exception 
+    when others then %>
+<h3><%=msg%></h3>
+        <form action="http://oracle.is.umbc.edu:8080/classpsp/IS420_LB35577.connect_appliance" name= "form_name_here"   method="post">
+            <input type ="hidden" name="hidden_name" value ="<%=hidden_name%>" >
+            <input type ="hidden" name="hidden_account_type" value ="<%=hidden_account_type%>">
+            <input type="submit" value="Try Again" />
+        </form>
+
+<a href="#" onclick="document.forms['form_name_here'].submit();"> Back To HomePage</a>
+        <form action="http://oracle.is.umbc.edu:8080/classpsp/IS420_LB35577.wattsup_homepage" name= "form_name_here"   method="post">
+            <input type ="hidden" name="hidden_name" value ="<%=hidden_name%>">
+            <input type ="hidden" name="hidden_account_type" value ="<%=hidden_account_type%>">
+        </form>
+
+</body>
+</html>
